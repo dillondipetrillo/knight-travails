@@ -45,5 +45,13 @@
         background-color: darken(#f0d9b5, 5%);
       }
     }
+
+    &.end-point {
+      background-color: #c73737;
+
+      &:hover {
+        background-color: #c73737;
+      }
+    }
   }
 }

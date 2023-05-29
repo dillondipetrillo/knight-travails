@@ -1,4 +1,5 @@
 import { knight } from "../gameboard/gameboard";
+import { isSelectingEnd } from "../gameboard/gameboard";
 import "./controls.scss";
 
 const createControls = () => {
@@ -42,6 +43,9 @@ const createControls = () => {
     gameboardArr.forEach((node) => {
       const { row, col } = node.dataset;
       if (+row === randRow && +col === randCol) {
+        if (node.classList.contains("end-point")) {
+          node.classList.remove("end-point");
+        }
         node.appendChild(knight);
         return;
       }
@@ -52,12 +56,19 @@ const createControls = () => {
     const gameboard = document.querySelector(".gameboard");
     const gameboardArr = [...gameboard.children];
     gameboardArr.forEach((node) => {
+      if (node.classList.contains("end-point")) {
+        node.classList.remove("end-point");
+      }
       if (node.children) {
         while (node.firstChild) {
           node.removeChild(node.firstChild);
         }
       }
     });
+  });
+
+  endPoint.addEventListener("click", () => {
+    isSelectingEnd = true;
   });
 
   btnContainer.append(randomPoint, endPoint, clear);

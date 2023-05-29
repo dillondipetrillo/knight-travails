@@ -3,6 +3,8 @@ import "./gameboard.scss";
 
 export const knight = createKnight();
 
+export let isSelectingEnd = false;
+
 const createGameboard = () => {
   const gameboard = document.createElement("div");
   gameboard.classList.add("gameboard");
@@ -18,12 +20,30 @@ const createGameboard = () => {
       isWhite = !isWhite;
       square.addEventListener("click", (evt) => {
         const clickedSquare = evt.target;
-        gameboard.childNodes.forEach((node) => {
-          if (node.childNode === knight) {
-            node.removeChild();
+        if (!isSelectingEnd) {
+          gameboard.childNodes.forEach((node) => {
+            if (node.childNode === knight) {
+              node.removeChild();
+            }
+          });
+          if (clickedSquare.classList.contains("end-point")) {
+            clickedSquare.classList.remove("end-point");
           }
-        });
-        clickedSquare.appendChild(knight);
+          clickedSquare.appendChild(knight);
+        } else {
+          gameboard.childNodes.forEach((node) => {
+            if (node.classList.contains("end-point")) {
+              node.classList.remove("end-point");
+            }
+          });
+          if (clickedSquare.firstChild) {
+            while (clickedSquare.firstChild) {
+              clickedSquare.removeChild(clickedSquare.firstChild);
+            }
+          }
+          clickedSquare.classList.add("end-point");
+          isSelectingEnd = false;
+        }
       });
     }
     isWhite = !isWhite;
