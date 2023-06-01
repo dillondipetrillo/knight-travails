@@ -1,5 +1,13 @@
-import { knight } from "../gameboard/gameboard";
-import { isSelectingEnd } from "../gameboard/gameboard";
+import {
+  knight,
+  knightEndCol,
+  knightEndRow,
+  isSelectingEnd,
+  knightStartCol,
+  knightStartRow,
+} from "../gameboard/gameboard";
+import moveKnight from "../../utils/move-knight";
+import findShortestPath from "../../utils/shortest-path";
 import "./controls.scss";
 
 const createControls = () => {
@@ -38,8 +46,8 @@ const createControls = () => {
         }
       }
     });
-    const randRow = Math.floor(Math.random() * 8) + 1;
-    const randCol = Math.floor(Math.random() * 8) + 1;
+    const randRow = Math.floor(Math.random() * 7) + 1;
+    const randCol = Math.floor(Math.random() * 7) + 1;
     gameboardArr.forEach((node) => {
       const { row, col } = node.dataset;
       if (+row === randRow && +col === randCol) {
@@ -47,6 +55,8 @@ const createControls = () => {
           node.classList.remove("end-point");
         }
         node.appendChild(knight);
+        knightStartCol = +node.dataset.col;
+        knightStartRow = +node.dataset.row;
         return;
       }
     });
@@ -65,10 +75,34 @@ const createControls = () => {
         }
       }
     });
+    knightEndCol = "";
+    knightEndRow = "";
+    knightStartCol = "";
+    knightStartRow = "";
+    isSelectingEnd = false;
   });
 
   endPoint.addEventListener("click", () => {
     isSelectingEnd = true;
+  });
+
+  travail.addEventListener("click", () => {
+    if (
+      knightStartCol !== "" &&
+      knightStartRow !== "" &&
+      knightEndCol !== "" &&
+      knightEndRow !== ""
+    ) {
+      let shortestPath = findShortestPath(
+        knightStartRow,
+        knightStartCol,
+        knightEndRow,
+        knightEndCol
+      );
+      moveKnight(shortestPath);
+    } else {
+      return;
+    }
   });
 
   btnContainer.append(randomPoint, endPoint, clear);
