@@ -12,6 +12,10 @@ const moveKnight = async (arr) => {
     );
 
     // Add knight to next DOM element
+    if (i === arr.length - 1) {
+      knightDOM.classList.add("visited");
+      knightDOM.textContent = i;
+    }
     knightDOM.appendChild(knight);
 
     // Remove knight from previous DOM element
@@ -23,10 +27,12 @@ const moveKnight = async (arr) => {
       while (prevKnight.firstChild) {
         prevKnight.removeChild(prevKnight.firstChild);
       }
+      prevKnight.classList.add("visited");
+      i - 1 > 0 ? (prevKnight.textContent = i - 1) : null;
     }
 
     // Delay knight movement
-    await delay(1000);
+    await delay(750);
   }
 };
 

@@ -69,6 +69,9 @@ const createControls = () => {
       if (node.classList.contains("end-point")) {
         node.classList.remove("end-point");
       }
+      if (node.classList.contains("visited")) {
+        node.classList.remove("visited");
+      }
       if (node.children) {
         while (node.firstChild) {
           node.removeChild(node.firstChild);
